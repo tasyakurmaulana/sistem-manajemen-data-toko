@@ -1,2 +1,2 @@
 # sistem-manajemen-data-toko
-Tugas praktikum algoritma dan struktud data
+Tugas praktikum algoritma dan struktur data

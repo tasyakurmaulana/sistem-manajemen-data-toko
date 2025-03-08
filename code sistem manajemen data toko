@@ -1,0 +1,170 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+struct daftarroti
+{
+    string nama;
+    string kode;
+    float harga;
+};
+
+daftarroti roti[] = {
+    {"ROTI TAWAR","001",15000.00},
+    {"ROTI COKLAT","002",18000.00},
+    {"ROTI KEJU","003",20000.00},
+    {"ROTI GANDUM","004",22000.00},
+    {"ROTI PISANG","005",17000.00}
+};
+
+bool found;
+bool found2;
+string carikod,carinam;
+int n = 5;
+daftarroti *ptr = roti;
+
+
+void tampil(){
+    cout << "===========================================\n";
+    cout << left << setw(20) << "Nama Roti" << setw(10) << "Kode" << setw(15) << "Harga" << endl;
+    cout << "===========================================\n";
+
+    for(int i = 0; i < n; i++){
+        cout << left << setw(20) << (ptr + i)->nama << setw(10) << (ptr + i)->kode << right << setw(5) << (ptr + i)->harga << endl;
+    }
+    cout << "===========================================\n";
+
+}
+
+void carikode(){
+    found = false;
+    int l=0;
+    cout <<"masukkan kode :";
+        cin>>carikod;
+    while (l<5 && found==false){
+        if (roti[l].kode==carikod){
+            {found = true;}}
+        else {l++;}} 
+        if (found){
+            cout<< "Data ditemukan sebagai berikut:\n";
+            cout << "Nama  : " << roti[l].nama << "\n";
+            cout << "Kode  : " << roti[l].kode << "\n";
+            cout << "Harga : " << roti[l].harga << "\n";}
+        else{
+            cout <<"Roti dengan kode " << carikod << "tidak ditemukan\n";
+        }
+}
+
+void carinama(){
+    cout << "Masukkan nama :";
+    cin.ignore(); 
+    getline(cin, carinam);
+    found2 = false;
+
+    for(int i = 0; i < n - 1; i++) {
+        for(int j = 0; j < n - 1 - i; j++) {
+            if(roti[j].nama > roti[j + 1].nama) {
+                swap(roti[j], roti[j + 1]);
+            }
+        }
+    }
+    int i = 0, j = n - 1, k;
+    while (i <= j) {
+        k = (i + j) / 2;
+        if (roti[k].nama == carinam) {
+            found2 = true;
+            break;
+        } else if (roti[k].nama > carinam) {
+            j = k - 1;
+        } else {
+            i = k + 1;
+        }
+    }
+    if (found2) {
+        cout << "Data ditemukan sebagai berikut:\n";
+        cout << "Nama  : " << roti[k].nama << "\n";
+        cout << "Kode  : " << roti[k].kode << "\n";
+        cout << "Harga : " << roti[k].harga << "\n";
+    } else {
+        cout << "Roti dengan nama" << carinam << "tidak ditemukan.\n";
+    }
+}
+
+
+void quicksort(daftarroti array[], int awal, int akhir) {
+    int low = awal, high = akhir;
+    int pivot = array[(awal + akhir) / 2].harga;
+    int temp;
+    do {
+        while (array[low].harga < pivot)
+            low++;
+        while (array[high].harga > pivot)
+            high--;
+        if (low <= high) {
+            swap(array[low], array[high]);
+            low++;
+            high--;
+        }
+    } while (low <= high);
+    if (awal < high){
+        quicksort(array, awal, high);}
+    if (low < akhir){
+        quicksort(array, low, akhir);}
+}
+
+
+void bubblesort(){
+    for(int i=0;i<n-1;i++){
+        for(int j=0;j<n-1-i;j++){
+            if(roti[j].harga < roti[j+1].harga){ 
+                swap(roti[j],roti[j+1]);
+            }
+        }
+    }
+    tampil();
+    cout <<"Roti berhasil diurutkan berdasarkan harga (descending)\n";
+}
+
+int main(){
+    int pil;
+    do{
+        cout <<"\n==========Toko Roti  Lil Maul===========\n";
+        cout <<"1.Tampilkan roti\n";
+        cout <<"2.cari berdasarkan kode\n";
+        cout <<"3.cari berdasarkan nama\n";
+        cout <<"4.sort harga roti (asc) dengan quicksort\n";
+        cout <<"5.sort harga roti (desc) dengan bubblesort\n";
+        cout <<"6.exit\n";
+        cout <<"pilih menu : ";
+            cin>>pil;
+        switch (pil)
+        {
+        case 1:
+            tampil();
+        break;
+        case 2:
+            carikode();
+        break;
+        case 3:
+            carinama();
+        break;
+        case 4:
+            quicksort(roti, 0, n - 1);
+            tampil();
+            if (n > 0) {
+            cout << "Data berhasil diurutkan berdasarkan harga (ascending)" << endl;}
+        break;
+        case 5:
+            bubblesort();
+        break;
+        case 6:
+            exit(0);
+        break;
+        default:
+            cout <<"pilihan tidak valid\n";
+        break;
+        }
+    }while(pil != 6);
+
+return 0;
+}
